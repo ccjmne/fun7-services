@@ -1,8 +1,17 @@
 # fun7-services Project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Technologies
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+- [Quarkus](https://quarkus.io/)
+- [GraalVM for Java](https://www.graalvm.org/java/)
+
+## Nota Bene:
+
+The `cc` (country code) query parameter is expected to adhere to the [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) or [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) format, without case-sensitivity.
+
+For example:
+  - accepts `"si"` or `"SVN"`, and recognises them as _Slovenia_
+  - rejects `705`, which would identify _Slovenia_, using the [ISO 3166-1 numeric](https://en.wikipedia.org/wiki/ISO_3166-1_numeric) convention.
 
 ## Running the application in dev mode
 
@@ -10,8 +19,6 @@ You can run your application in dev mode that enables live coding using:
 ```shell script
 ./mvnw compile quarkus:dev
 ```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
 
 ## Packaging and running the application
 
@@ -46,11 +53,3 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/fun7-services-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
