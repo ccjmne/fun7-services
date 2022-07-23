@@ -1,4 +1,4 @@
-package io.ccjmne.check_services;
+package io.ccjmne.check_services.services;
 
 import java.time.Clock;
 import java.time.DayOfWeek;

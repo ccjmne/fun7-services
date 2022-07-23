@@ -1,4 +1,4 @@
-package io.ccjmne.responses;
+package io.ccjmne.check_services;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class CheckServicesResponse {
   @JsonSerialize(using = BooleanSerializer.class)
   Boolean ads;
 
-  public CheckServicesResponse() { }
+  public CheckServicesResponse() {}
 
   public CheckServicesResponse(final Boolean multiplayer, final Boolean userSupport, final Boolean ads) {
     this.multiplayer = multiplayer;

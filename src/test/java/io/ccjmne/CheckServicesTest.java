@@ -2,11 +2,9 @@ package io.ccjmne;
 
 import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.startsWith;
 
 import java.net.URL;
 
@@ -14,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import io.ccjmne.check_services.CheckServicesEndpoint;
-import io.ccjmne.check_services.UserSupportService;
+import io.ccjmne.check_services.services.UserSupportService;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -24,7 +22,6 @@ import io.restassured.specification.RequestSpecification;
 @QuarkusTest
 public class CheckServicesTest {
 
-  @com.google.inject.Inject
   @TestHTTPEndpoint(CheckServicesEndpoint.class)
   @TestHTTPResource
   URL services;
@@ -38,7 +35,7 @@ public class CheckServicesTest {
       .when().get(services)
       .then()
       .statusCode(BAD_REQUEST.getStatusCode())
-      .contentType(TEXT_PLAIN)
+      .contentType(APPLICATION_JSON)
       .body(containsString("must not be null"));
   }
 
@@ -49,8 +46,8 @@ public class CheckServicesTest {
       .when().get(services)
       .then()
       .statusCode(BAD_REQUEST.getStatusCode())
-      .contentType(TEXT_PLAIN)
-      .body(startsWith("Invalid country code"));
+      .contentType(APPLICATION_JSON)
+      .body(containsString("invalid country code"));
   }
 
   @Test
