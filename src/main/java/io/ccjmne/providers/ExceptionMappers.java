@@ -15,7 +15,7 @@ public class ExceptionMappers {
 
   @ServerExceptionMapper
   public RestResponse<Map<String, String>> mapException(final NotFoundException e) {
-    return RestResponse.status(Status.BAD_REQUEST, entity(e));
+    return RestResponse.status(Status.NOT_FOUND, entity(e));
   }
 
   @ServerExceptionMapper
