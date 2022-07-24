@@ -15,7 +15,7 @@ import com.neovisionaries.i18n.CountryCode;
 @ClientHeaderParam(name = "Authorization", value = "{authorization}")
 // TODO: somehow, using this just doesn't work. Needs investigating.
 // @RegisterClientHeaders(AdPartnerClientHeaders.class)
-public interface AdPartnerEndpoint {
+public interface AdPartnerClient {
 
   @GET
   AdPartnerResponse canProvideFor(@QueryParam("countryCode") final CountryCode countryCode);

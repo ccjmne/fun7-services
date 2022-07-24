@@ -10,7 +10,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.check_services.adpartner.AdPartnerEndpoint;
+import io.ccjmne.check_services.adpartner.AdPartnerClient;
 import io.quarkus.logging.Log;
 
 @ApplicationScoped
@@ -18,7 +18,7 @@ public class AdsService {
 
   @Inject
   @RestClient
-  AdPartnerEndpoint adPartner;
+  AdPartnerClient adPartner;
 
   public Boolean isAvailableIn(final CountryCode country) {
     try {

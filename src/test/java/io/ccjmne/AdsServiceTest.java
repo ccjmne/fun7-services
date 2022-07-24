@@ -16,7 +16,7 @@ import org.mockito.Mockito;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.check_services.adpartner.AdPartnerEndpoint;
+import io.ccjmne.check_services.adpartner.AdPartnerClient;
 import io.ccjmne.check_services.adpartner.AdPartnerResponse;
 import io.ccjmne.check_services.services.AdsService;
 import io.quarkus.test.junit.QuarkusTest;
@@ -30,7 +30,7 @@ public class AdsServiceTest {
 
   @InjectMock
   @RestClient
-  AdPartnerEndpoint adPartner;
+  AdPartnerClient adPartner;
 
   @Test
   public void ads_unauthorized() {
