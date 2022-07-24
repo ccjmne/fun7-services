@@ -18,4 +18,10 @@ public class User {
     this.id = id;
   }
 
+  public User checkedInFrom(final CountryCode country) {
+    this.apiCalls++;
+    this.country = country;
+    return this;
+  }
+
 }
