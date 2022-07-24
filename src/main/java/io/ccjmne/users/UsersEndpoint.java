@@ -12,17 +12,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 import org.bson.types.ObjectId;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-
-import io.ccjmne.check_services.adpartner.AdPartnerEndpoint;
 
 @Path("/users")
 @RolesAllowed("ADMIN")
 public class UsersEndpoint {
-
-  @Inject
-  @RestClient
-  AdPartnerEndpoint adPartner;
 
   @Inject
   UsersRepository users;
