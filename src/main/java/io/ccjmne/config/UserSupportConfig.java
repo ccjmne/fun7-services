@@ -25,7 +25,7 @@ public interface UserSupportConfig {
   interface Workhours {
 
     @WithConverter(LocalTimeConverter.class)
-    @WithDefault("9:00")
+    @WithDefault("09:00")
     public LocalTime from();
 
     @WithConverter(LocalTimeConverter.class)
