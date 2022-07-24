@@ -7,12 +7,14 @@ public class AdPartnerResponse {
 
   public String ads;
 
-  public boolean isYes() {
-    return YES.equals(this.ads);
-  }
+  public AdPartnerResponse() {}
 
   public AdPartnerResponse(final String ads) {
     this.ads = ads;
+  }
+
+  public boolean isYes() {
+    return YES.equals(this.ads);
   }
 
 }
