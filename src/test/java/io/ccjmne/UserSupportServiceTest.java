@@ -1,17 +1,14 @@
 package io.ccjmne;
 
-import static io.ccjmne.check_services.services.UserSupportService.WORKDAY_END;
-import static io.ccjmne.check_services.services.UserSupportService.WORKDAY_START;
+import static java.time.LocalDateTime.now;
 import static java.time.temporal.ChronoUnit.SECONDS;
+import static java.time.temporal.TemporalAdjusters.next;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Clock;
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAdjusters;
 
 import javax.inject.Inject;
 
@@ -19,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import io.ccjmne.check_services.services.UserSupportService;
+import io.ccjmne.config.UserSupportConfig;
+import io.ccjmne.providers.ClockProvider;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 
@@ -29,10 +28,10 @@ public class UserSupportServiceTest {
   UserSupportService userSupport;
 
   @Inject
-  ZoneId TZ;
+  UserSupportConfig config;
 
   @InjectMock
-  Clock clock;
+  ClockProvider clock;
 
   @Test
   public void userSupport_weekend() {
@@ -45,22 +44,34 @@ public class UserSupportServiceTest {
 
   @Test
   public void userSupport_weekday() {
-    fixClock(DayOfWeek.MONDAY, WORKDAY_START.minus(1, SECONDS));
-    assertFalse(userSupport.isAvailable(), "User support shouldn't be available on weekdays before 0900");
+    fixClock(DayOfWeek.MONDAY, config.workhours().from().minus(1, SECONDS));
+    assertFalse(
+      userSupport.isAvailable(),
+      String.format("User support shouldn't be available on weekdays before %s", config.workhours().from())
+    );
 
-    fixClock(DayOfWeek.MONDAY, WORKDAY_START);
-    assertTrue(userSupport.isAvailable(), "User support should be available on weekdays from 0900");
+    fixClock(DayOfWeek.MONDAY, config.workhours().from());
+    assertTrue(
+      userSupport.isAvailable(),
+      String.format("User support should be available on weekdays from %s", config.workhours().from())
+    );
 
-    fixClock(DayOfWeek.MONDAY, WORKDAY_END);
-    assertTrue(userSupport.isAvailable(), "User support should be available on weekdays until 1500");
+    fixClock(DayOfWeek.MONDAY, config.workhours().to());
+    assertTrue(
+      userSupport.isAvailable(),
+      String.format("User support should be available on weekdays until %s", config.workhours().to())
+    );
 
-    fixClock(DayOfWeek.MONDAY, WORKDAY_END.plus(1, SECONDS));
-    assertFalse(userSupport.isAvailable(), "User support shouldn't be available on weekdays after 1500");
+    fixClock(DayOfWeek.MONDAY, config.workhours().to().plus(1, SECONDS));
+    assertFalse(
+      userSupport.isAvailable(),
+      String.format("User support shouldn't be available on weekdays after %s", config.workhours().to())
+    );
   }
 
   private void fixClock(final DayOfWeek day, final LocalTime time) {
-    Mockito.when(clock.instant()).thenReturn(LocalDateTime.now().atZone(TZ).with(TemporalAdjusters.nextOrSame(day)).with(time).toInstant());
-    Mockito.when(clock.getZone()).thenReturn(TZ);
+    Mockito.when(clock.get())
+      .thenReturn(Clock.fixed(now().with(next(day)).with(time).atZone(config.timezone()).toInstant(), config.timezone()));
   }
 
 }
