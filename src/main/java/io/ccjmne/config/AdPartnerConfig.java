@@ -1,5 +1,7 @@
 package io.ccjmne.config;
 
+import java.util.Optional;
+
 import io.quarkus.runtime.annotations.StaticInitSafe;
 import io.smallrye.config.ConfigMapping;
 import io.smallrye.config.ConfigMapping.NamingStrategy;
@@ -8,8 +10,8 @@ import io.smallrye.config.ConfigMapping.NamingStrategy;
 @ConfigMapping(prefix = "adpartner", namingStrategy = NamingStrategy.KEBAB_CASE)
 public interface AdPartnerConfig {
 
-  public String username();
+  public Optional<String> username();
 
-  public String password();
+  public Optional<String> password();
 
 }
