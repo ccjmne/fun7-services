@@ -2,9 +2,10 @@ package io.ccjmne.check_services.services;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response.Status.Family;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 import com.neovisionaries.i18n.CountryCode;
 
@@ -20,10 +21,15 @@ public class AdsService {
 
   public Boolean isAvailableIn(final CountryCode country) {
     try {
-      return adPartner.canProvideFor(country).ads.equalsIgnoreCase("Sure, why not!");
-    } catch (final ClientWebApplicationException e) {
-      Log.error("The advertisment partner committed seppuku", e);
-      return false;
+      return adPartner.canProvideFor(country).isYes();
+    } catch (final WebApplicationException e) {
+      if (Family.SERVER_ERROR == e.getResponse().getStatusInfo().getFamily()) {
+        Log.warn("The advertisment partner committed seppuku");
+        return false;
+      }
+
+      Log.error(e);
+      throw e;
     }
   }
 
