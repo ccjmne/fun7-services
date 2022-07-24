@@ -19,8 +19,6 @@ public class CheckServicesResponse {
   @JsonSerialize(using = BooleanSerializer.class)
   Boolean ads;
 
-  public CheckServicesResponse() {}
-
   public CheckServicesResponse(final Boolean multiplayer, final Boolean userSupport, final Boolean ads) {
     this.multiplayer = multiplayer;
     this.userSupport = userSupport;
@@ -32,8 +30,8 @@ public class CheckServicesResponse {
 class BooleanSerializer extends JsonSerializer<Boolean> {
 
   @Override
-  public void serialize(final Boolean value, final JsonGenerator gen, final SerializerProvider serializers) throws IOException {
-    gen.writeString(value ? "enabled" : "disabled");
+  public void serialize(final Boolean bool, final JsonGenerator gen, final SerializerProvider serializers) throws IOException {
+    gen.writeString(bool ? "enabled" : "disabled");
   }
 
 }

@@ -77,7 +77,7 @@ public class CheckServicesTest {
   private RequestSpecification givenValidParams() {
     return given()
       .queryParam("timezone", "Europe/Ljubljana")
-      .queryParam("userId", "0")
+      .queryParam("userId", "123456789012345678901234")
       .queryParam("cc", "si");
   }
 

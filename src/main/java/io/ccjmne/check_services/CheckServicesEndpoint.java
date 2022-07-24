@@ -1,33 +1,42 @@
 package io.ccjmne.check_services;
 
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-
 import javax.inject.Inject;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
+import org.bson.types.ObjectId;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.responses.CheckServicesResponse;
+import io.ccjmne.check_services.services.AdsService;
+import io.ccjmne.check_services.services.MultiplayerService;
+import io.ccjmne.check_services.services.UserSupportService;
+import io.ccjmne.users.User;
+import io.quarkus.mongodb.panache.PanacheMongoRepository;
 
 @Path("/services")
-public class CheckServicesEndpoint {
+public class CheckServicesEndpoint implements PanacheMongoRepository<User> {
 
   @Inject
   UserSupportService userSupport;
 
+  @Inject
+  MultiplayerService multiplayer;
+
+  @Inject
+  AdsService ads;
+
   @GET
-  @Produces(APPLICATION_JSON)
   public CheckServicesResponse get(
-    @NotNull @NotEmpty @QueryParam("timezone") final String timezone,
-    @NotNull @NotEmpty @QueryParam("userId") final String userId,
-    @NotNull @QueryParam("cc") final CountryCode cc
+    @QueryParam("timezone") final String timezone,
+    @QueryParam("userId") @NotNull final ObjectId userId,
+    @QueryParam("cc") @NotNull final CountryCode cc
   ) {
-    return new CheckServicesResponse(false, userSupport.isAvailable(), false);
+    final User user = findByIdOptional(userId).orElse(new User(userId)).checkedInFrom(cc);
+    persistOrUpdate(user);
+    return new CheckServicesResponse(multiplayer.isAvailableTo(user), userSupport.isAvailable(), ads.isAvailableIn(cc));
   }
 
 }
