@@ -14,10 +14,10 @@ import io.ccjmne.check_services.services.AdsService;
 import io.ccjmne.check_services.services.MultiplayerService;
 import io.ccjmne.check_services.services.UserSupportService;
 import io.ccjmne.users.User;
-import io.quarkus.mongodb.panache.PanacheMongoRepository;
+import io.ccjmne.users.UsersRepository;
 
 @Path("/services")
-public class CheckServicesEndpoint implements PanacheMongoRepository<User> {
+public class CheckServicesEndpoint {
 
   @Inject
   UserSupportService userSupport;
@@ -28,14 +28,17 @@ public class CheckServicesEndpoint implements PanacheMongoRepository<User> {
   @Inject
   AdsService ads;
 
+  @Inject
+  UsersRepository users;
+
   @GET
   public CheckServicesResponse get(
     @QueryParam("timezone") final String timezone,
     @QueryParam("userId") @NotNull final ObjectId userId,
     @QueryParam("cc") @NotNull final CountryCode cc
   ) {
-    final User user = findByIdOptional(userId).orElse(new User(userId)).checkedInFrom(cc);
-    persistOrUpdate(user);
+    final User user = users.findByIdOptional(userId).orElse(new User(userId)).checkedInFrom(cc);
+    users.persistOrUpdate(user);
     return new CheckServicesResponse(multiplayer.isAvailableTo(user), userSupport.isAvailable(), ads.isAvailableIn(cc));
   }
 
