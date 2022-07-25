@@ -1,0 +1,35 @@
+version: '3'
+
+volumes:
+  mongo-data:
+
+services:
+  db:
+    image: mongo
+    container_name: mongodb
+    volumes:
+      - mongo-data:/data/db:rw
+    ports:
+      - 27017-27019:27017-27019
+  quarkus:
+    image: ghcr.io/ccjmne/fun7-services-native
+    container_name: fun7_services
+    environment:
+      - USERSUPPORT_TZ=Europe/Ljubljana
+      - USERSUPPORT_FROM=09:00
+      - USERSUPPORT_TO=15:00
+
+      - ADPARTNER_URL=https://postman-echo.com/get
+      - ADPARTNER_USERNAME=user
+      - ADPARTNER_PASSWORD=pass
+
+      - MULTIPLAYER_COUNTRY=US
+      - MULTIPLAYER_MINCHECKINS=5
+
+      - MONGO_URL=mongodb://db:27017
+      - MONGO_DB=users
+
+      - ADMIN_PASSWORD=pwd
+    ports:
+      - 8080:8080
+      - 8443:8443
