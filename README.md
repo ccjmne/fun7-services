@@ -125,6 +125,14 @@ This application exposes two endpoints:
     - ... despite Kubernetes allowing it
     - (I read in some GitHub issue that GKE also did, so maybe the culprit really is only their Web interface)
 
+## Licensing
+
+**GPL-3.0**
+
+You may copy, distribute and modify the software as long as you track changes/dates in source files. Any modifications to or software including (via compiler) GPL-licensed code must also be made available under the GPL along with build & install instructions.
+
+Refer to the [LICENSE](./LICENSE) file for more details.
+
 ---
 
 There is nothing more below but the useful parts of Quarkus' starter project's README.
