@@ -1,10 +1,5 @@
 name: ci-jvm
 
-env:
-  ADPARTNER_USERNAME: ${{ secrets.ADPARTNER_USERNAME }}
-  ADPARTNER_PASSWORD: ${{ secrets.ADPARTNER_PASSWORD }}
-  ADPARTNER_URL: ${{ secrets.ADPARTNER_URL }}
-
 on:
   push:
     branches: [master]
@@ -26,13 +21,6 @@ jobs:
         with:
           java-version: "11"
           distribution: "adopt"
-      - name: login gcr.io
-        uses: docker/login-action@v2
-        with:
-          registry: gcr.io
-          username: _json_key
-          password: ${{ secrets.GCR_JSON_KEY }}
-          logout: true
       - name: login ghcr.io
         uses: docker/login-action@v2
         with:
@@ -40,6 +28,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           logout: true
+      # - name: login gcr.io
+      #   uses: docker/login-action@v2
+      #   with:
+      #     registry: gcr.io
+      #     username: _json_key
+      #     password: ${{ secrets.GCR_JSON_KEY }}
+      #     logout: true
       - name: checkout
         uses: actions/checkout@v2.4.2
       - name: cache ~/.m2
@@ -55,6 +50,8 @@ jobs:
       - name: mvn package -DskipTests -Dquarkus.container-image.push=true latest
         if: github.ref == 'refs/heads/master'
         run: $MVN package -DskipTests -Dquarkus.container-image.push=true -Dquarkus.container-image.image=ghcr.io/ccjmne/fun7-services:latest '-Dquarkus.jib.labels."org.opencontainers.image.revision"='$GITHUB_SHA
+        # run: $MVN package -DskipTests -Dquarkus.container-image.push=true -Dquarkus.container-image.image=gcr.io/fun7-357415/fun7-services:latest '-Dquarkus.jib.labels."org.opencontainers.image.revision"='$GITHUB_SHA
       - name: mvn package -DskipTests -Dquarkus.container-image.push=true snapshot
         if: github.ref != 'refs/heads/master'
         run: $MVN package -DskipTests -Dquarkus.container-image.push=true -Dquarkus.container-image.image=ghcr.io/ccjmne/fun7-services:snapshot '-Dquarkus.jib.labels."org.opencontainers.image.revision"='$GITHUB_SHA
+        # run: $MVN package -DskipTests -Dquarkus.container-image.push=true -Dquarkus.container-image.image=gcr.io/fun7-357415/fun7-services:snapshot '-Dquarkus.jib.labels."org.opencontainers.image.revision"='$GITHUB_SHA
