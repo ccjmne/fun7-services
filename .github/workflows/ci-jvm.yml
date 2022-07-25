@@ -1,9 +1,9 @@
 name: ci-jvm
 
 env:
-  ADPARTNER_USERNAME: ${{secrets.ADPARTNER_USERNAME}}
-  ADPARTNER_PASSWORD: ${{secrets.ADPARTNER_PASSWORD}}
-  ADPARTNER_URL: ${{secrets.ADPARTNER_URL}}
+  ADPARTNER_USERNAME: ${{ secrets.ADPARTNER_USERNAME }}
+  ADPARTNER_PASSWORD: ${{ secrets.ADPARTNER_PASSWORD }}
+  ADPARTNER_URL: ${{ secrets.ADPARTNER_URL }}
 
 on:
   push:
@@ -26,6 +26,13 @@ jobs:
         with:
           java-version: "11"
           distribution: "adopt"
+      - name: login gcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: gcr.io
+          username: _json_key
+          password: ${{ secrets.GCR_JSON_KEY }}
+          logout: true
       - name: login ghcr.io
         uses: docker/login-action@v2
         with:
