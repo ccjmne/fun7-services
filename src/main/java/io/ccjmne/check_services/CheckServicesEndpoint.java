@@ -16,7 +16,7 @@ import io.ccjmne.check_services.services.UserSupportService;
 import io.ccjmne.users.User;
 import io.ccjmne.users.UsersRepository;
 
-@Path("/services")
+@Path("/")
 public class CheckServicesEndpoint {
 
   @Inject
