@@ -1,6 +1,7 @@
 package io.ccjmne.check_services.adpartner;
 
 import java.util.Base64;
+import java.util.Collections;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,18 +20,16 @@ public class AdPartnerClientHeaders implements ClientHeadersFactory {
 
   @Override
   public MultivaluedMap<String, String> update(MultivaluedMap<String, String> incoming, MultivaluedMap<String, String> outgoing) {
-    if (!config.username().isPresent()) {
-      return outgoing;
-    }
-
-    final MultivaluedMap<String, String> headers = new MultivaluedHashMap<String, String>();
-    headers.putAll(outgoing);
-    headers.putSingle(
-      "Authorization",
-      String.format("Basic %s", Base64.getEncoder().encodeToString(String.format("%s:%s", config.username(), config.password()).getBytes()))
+    return new MultivaluedHashMap<>(
+      config.username().isPresent()
+        ? Collections.singletonMap(
+          "Authorization", String.format(
+            "Basic %s",
+            Base64.getEncoder().encodeToString(String.format("%s:%s", config.username().get(), config.password().get()).getBytes())
+          )
+        )
+        : Collections.emptyMap()
     );
-
-    return headers;
   }
 
 }
