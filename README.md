@@ -25,9 +25,16 @@ __  ____  __  _____   ___  __ ____  ______
 1. Edit [docker-compose.yml](docker-compose.yml) to tweak the [environment variables](#environment-variables)
    - notably, the `ADPARTNER_URL`
 2. `docker-compose up --detach`
-3. [Query it with your browser](http://localhost:8080?cc=SI&userId=123456789012345678901234&timzone=Europe/Ljubljana)
+3. [Query it with your browser](http://localhost:8080?cc=SI&userId=123456789012345678901234&timezone=Europe/Ljubljana)
    - by default, you can access the user administration with `admin`:`pwd`.
 4. `docker-compose down`
+
+OR
+
+- Query the [Cloud Run](https://cloud.google.com/run) endpoint where it is (temporarily) hosted:  
+  [https://fun7-jsppj7p4zq-od.a.run.app](https://fun7-jsppj7p4zq-od.a.run.app/?cc=SI&userId=123456789012345678901234&timezone=Europe/Ljubljana)
+  - you'll likely experience some ~0.040s delay (40ms 😱) the first time, because Cloud Run needs to start up the server :)
+  - this endpoint actually queries Fun7's ad partner
 
 ## Endpoints
 
