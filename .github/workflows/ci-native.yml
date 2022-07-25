@@ -3,6 +3,10 @@ name: ci-native
 on:
   push:
     branches: [master]
+    paths:
+      - ".github/workflows/ci-native.yml"
+      - "src/**"
+      - "pom.xml"
 
 permissions:
   packages: write
