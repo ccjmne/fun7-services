@@ -1,4 +1,4 @@
-package io.ccjmne.check_services.services;
+package io.ccjmne.endpoints.services.impl;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -10,7 +10,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.check_services.adpartner.AdPartnerClient;
+import io.ccjmne.endpoints.services.adpartner.AdPartnerClient;
 import io.quarkus.logging.Log;
 
 @ApplicationScoped

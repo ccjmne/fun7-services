@@ -1,4 +1,4 @@
-package io.ccjmne.users;
+package io.ccjmne.endpoints.users;
 
 import javax.enterprise.context.ApplicationScoped;
 

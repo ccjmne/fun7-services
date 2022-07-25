@@ -26,9 +26,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import io.ccjmne.config.EmbeddedUsersConfig;
-import io.ccjmne.users.User;
-import io.ccjmne.users.UsersEndpoint;
-import io.ccjmne.users.UsersRepository;
+import io.ccjmne.endpoints.users.User;
+import io.ccjmne.endpoints.users.UsersEndpoint;
+import io.ccjmne.endpoints.users.UsersRepository;
 import io.quarkus.runtime.configuration.ConfigurationException;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.common.http.TestHTTPResource;

@@ -18,12 +18,12 @@ import org.mockito.Mockito;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.check_services.CheckServicesEndpoint;
-import io.ccjmne.check_services.services.AdsService;
-import io.ccjmne.check_services.services.MultiplayerService;
-import io.ccjmne.check_services.services.UserSupportService;
-import io.ccjmne.users.User;
-import io.ccjmne.users.UsersRepository;
+import io.ccjmne.endpoints.services.CheckServicesEndpoint;
+import io.ccjmne.endpoints.services.impl.AdsService;
+import io.ccjmne.endpoints.services.impl.MultiplayerService;
+import io.ccjmne.endpoints.services.impl.UserSupportService;
+import io.ccjmne.endpoints.users.User;
+import io.ccjmne.endpoints.users.UsersRepository;
 import io.quarkus.test.common.http.TestHTTPEndpoint;
 import io.quarkus.test.common.http.TestHTTPResource;
 import io.quarkus.test.junit.QuarkusTest;

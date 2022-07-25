@@ -15,8 +15,8 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import io.ccjmne.check_services.services.UserSupportService;
 import io.ccjmne.config.UserSupportConfig;
+import io.ccjmne.endpoints.services.impl.UserSupportService;
 import io.ccjmne.providers.ClockProvider;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;

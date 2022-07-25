@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.check_services.services.MultiplayerService;
 import io.ccjmne.config.MultiplayerConfig;
-import io.ccjmne.users.User;
+import io.ccjmne.endpoints.services.impl.MultiplayerService;
+import io.ccjmne.endpoints.users.User;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest

@@ -1,4 +1,4 @@
-package io.ccjmne.check_services;
+package io.ccjmne.endpoints.services;
 
 import java.io.IOException;
 

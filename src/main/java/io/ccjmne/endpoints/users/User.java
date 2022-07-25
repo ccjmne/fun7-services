@@ -1,4 +1,4 @@
-package io.ccjmne.users;
+package io.ccjmne.endpoints.users;
 
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.types.ObjectId;

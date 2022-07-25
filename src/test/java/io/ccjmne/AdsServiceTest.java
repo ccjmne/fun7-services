@@ -16,9 +16,9 @@ import org.mockito.Mockito;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.check_services.adpartner.AdPartnerClient;
-import io.ccjmne.check_services.adpartner.AdPartnerResponse;
-import io.ccjmne.check_services.services.AdsService;
+import io.ccjmne.endpoints.services.adpartner.AdPartnerClient;
+import io.ccjmne.endpoints.services.adpartner.AdPartnerResponse;
+import io.ccjmne.endpoints.services.impl.AdsService;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 

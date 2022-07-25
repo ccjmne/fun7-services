@@ -1,4 +1,4 @@
-package io.ccjmne.check_services;
+package io.ccjmne.endpoints.services;
 
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
@@ -10,11 +10,11 @@ import org.bson.types.ObjectId;
 
 import com.neovisionaries.i18n.CountryCode;
 
-import io.ccjmne.check_services.services.AdsService;
-import io.ccjmne.check_services.services.MultiplayerService;
-import io.ccjmne.check_services.services.UserSupportService;
-import io.ccjmne.users.User;
-import io.ccjmne.users.UsersRepository;
+import io.ccjmne.endpoints.services.impl.AdsService;
+import io.ccjmne.endpoints.services.impl.MultiplayerService;
+import io.ccjmne.endpoints.services.impl.UserSupportService;
+import io.ccjmne.endpoints.users.User;
+import io.ccjmne.endpoints.users.UsersRepository;
 
 @Path("/")
 public class CheckServicesEndpoint {

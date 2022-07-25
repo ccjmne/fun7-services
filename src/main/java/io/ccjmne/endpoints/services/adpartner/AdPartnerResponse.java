@@ -1,4 +1,4 @@
-package io.ccjmne.check_services.adpartner;
+package io.ccjmne.endpoints.services.adpartner;
 
 public class AdPartnerResponse {
 

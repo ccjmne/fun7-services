@@ -1,4 +1,4 @@
-package io.ccjmne.check_services.adpartner;
+package io.ccjmne.endpoints.services.adpartner;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.QueryParam;
