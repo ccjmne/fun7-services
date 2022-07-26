@@ -49,7 +49,7 @@ curl -i 'http://localhost:8080?cc=SI&userId=123456789012345678901234&timezone=Eu
 - Query the [Cloud Run](https://cloud.google.com/run) endpoint where it is (temporarily) hosted:  
   [https://fun7-jsppj7p4zq-od.a.run.app](https://fun7-jsppj7p4zq-od.a.run.app/?cc=SI&userId=123456789012345678901234&timezone=Europe/Ljubljana)
   - this service actually does query Fun7's "real" ad partner
-  - you'll likely experience some **~0.040s** delay (**40ms** 😱) the first time, because Cloud Run will need to start up the server :)
+  - you'll likely experience some **~0.040s** delay (!) the first time, because Cloud Run will need to start up the server :)
 
 ## Endpoints
 
@@ -100,7 +100,7 @@ This application exposes two endpoints:
 |                           |                                                                                               |
 | `ADMIN_PASSWORD`          | The password for the `admin` account that can access `/users`<br />e.g.: `pwd`                |
 
-### Implementation Details
+### Design Decisions
 
 - A user in the database has 3 properties:
 
@@ -128,24 +128,45 @@ This application exposes two endpoints:
 
   - by default, set up w/ [basic authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) against an [embedded](https://quarkus.io/guides/security-properties#embedded-realm-configuration) security realm
 
-- I removed the "publish to Google Cloud Registry" part of the CI workflows and only publish to GitHub Container Registry
+- All input fields (query and path parameters) are parsed and validated before any "business" method is invoked
 
-  - Note to self
+- All errors due to bad requests (invalid input field, no match for supplied user id, etc) yield a `4xx`-family answer
 
-  ```shell
-  docker pull ghcr.io/ccjmne/fun7-services-native
-  docker tag ghcr.io/ccjmne/fun7-services-native gcr.io/fun7-357415/fun7-services-native:latest
-  docker push gcr.io/fun7-357415/fun7-services-native:latest
+  - `NOT_FOUND` for unmatched user id
+  - `BAD_REQUEST` for the rest
+
+- Additionally, all error responses are normalised in the form:
+
+  ```json
+  {
+    "error": "invalid user id: should be 24 hexadecimal characters"
+  }
   ```
 
-- Integration testing isn't my _forte_
+- When the Ad Partner's request handler fails...
+
+  - with `5xx`-family (internal server error)
+    - log that with a `WARNING` severity
+    - carry on and assume ads aren't available
+  - with `4xx`-family (bad request)
+    - log that with a `ERROR` severity
+    - yield a `500` to the client, with an informative, normalised response body (see above)
+
+- If the user support is configured to be available from `09:00` to `15:00`...
+
+  - in a pedantic world, it would become available at `09:00` and stay so until `15:00`, where it would become unavailable
+  - in reality, it makes sense that one would expect the range to be inclusive at both ends
+    - therefore, also return `enabled` during that one extra millisecond at `15:00` (until `15:00:00.001`)
 
 - The relevant configuration entries are mapped to environment variables that match `[A-Z_]+`
+
   - ... because Google Cloud's Kubernetes Engine doesn't accept `dotdash-style.environment-vars`
   - ... despite Kubernetes itself being fine with it. Maybe it's just GKE's Web interface that doesn't play nice.
     - actually, I can't set the minimum number of pods to be `0` either
     - ... despite Kubernetes allowing it
     - (I read in some GitHub issue that GKE also did, so maybe the culprit really is only their Web interface)
+
+- Integration testing isn't my _forte_
 
 ## Licensing
 
