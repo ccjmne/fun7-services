@@ -20,21 +20,36 @@ __  ____  __  _____   ___  __ ____  ______
 - [Cloud Run](https://cloud.google.com/run) for [serverless](https://en.wikipedia.org/wiki/Serverless_computing) computing.
 - [GitHub Actions](https://github.com/features/actions) for [continuous integration](https://www.atlassian.com/continuous-delivery/continuous-integration).
 
-## Play With It
+## Play with it
 
-1. Edit [docker-compose.yml](docker-compose.yml) to tweak the [environment variables](#environment-variables)
-   - notably, the `ADPARTNER_URL`
-2. `docker-compose up --detach`
-3. [Query it with your browser](http://localhost:8080?cc=SI&userId=123456789012345678901234&timezone=Europe/Ljubljana)
+**_TL;DR:_**
+
+```shell
+curl -s https://raw.githubusercontent.com/ccjmne/fun7-services/master/docker-compose.yml > docker-compose.yml
+docker-compose up --detach
+curl -i 'http://localhost:8080?cc=SI&userId=123456789012345678901234&timezone=Europe/Ljubljana'
+```
+
+---
+
+### Common usage
+
+1. `git clone https://github.com/ccjmne/fun7-services`
+   - or `curl -s https://raw.githubusercontent.com/ccjmne/fun7-services/master/docker-compose.yml > docker-compose.yml`
+2. Edit [docker-compose.yml](docker-compose.yml) to tweak the [environment variables](#environment-variables)
+   - notably, `ADPARTNER_URL`, `ADPARTNER_USERNAME` and `ADPARTNER_PASSWORD`
+3. `docker-compose up`
+4. [Query it with your browser](http://localhost:8080?cc=SI&userId=123456789012345678901234&timezone=Europe/Ljubljana)
    - by default, you can access the user administration with `admin`:`pwd`.
-4. `docker-compose down`
+5. `Ctrl-C`
+6. `docker-compose down`
 
-OR
+### Try it online
 
 - Query the [Cloud Run](https://cloud.google.com/run) endpoint where it is (temporarily) hosted:  
   [https://fun7-jsppj7p4zq-od.a.run.app](https://fun7-jsppj7p4zq-od.a.run.app/?cc=SI&userId=123456789012345678901234&timezone=Europe/Ljubljana)
-  - you'll likely experience some ~0.040s delay (40ms 😱) the first time, because Cloud Run needs to start up the server :)
-  - this endpoint actually queries Fun7's ad partner
+  - this service actually does query Fun7's "real" ad partner
+  - you'll likely experience some **~0.040s** delay (**40ms** 😱) the first time, because Cloud Run will need to start up the server :)
 
 ## Endpoints
 
@@ -117,7 +132,7 @@ This application exposes two endpoints:
 
   - Note to self
 
-  ```shell script
+  ```shell
   docker pull ghcr.io/ccjmne/fun7-services-native
   docker tag ghcr.io/ccjmne/fun7-services-native gcr.io/fun7-357415/fun7-services-native:latest
   docker push gcr.io/fun7-357415/fun7-services-native:latest
@@ -150,7 +165,7 @@ There is nothing more below but the useful parts of Quarkus' starter project's R
 
 You can run your application in dev mode that enables live coding using:
 
-```shell script
+```shell
 ./mvnw compile quarkus:dev
 ```
 
@@ -158,7 +173,7 @@ You can run your application in dev mode that enables live coding using:
 
 The application can be packaged using:
 
-```shell script
+```shell
 ./mvnw package
 ```
 
@@ -169,7 +184,7 @@ The application is now runnable using `java -jar target/quarkus-app/quarkus-run.
 
 If you want to build an _über-jar_, execute the following command:
 
-```shell script
+```shell
 ./mvnw package -Dquarkus.package.type=uber-jar
 ```
 
@@ -179,13 +194,13 @@ The application, packaged as an _über-jar_, is now runnable using `java -jar ta
 
 You can create a native executable using:
 
-```shell script
+```shell
 ./mvnw package -Pnative
 ```
 
 Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 
-```shell script
+```shell
 ./mvnw package -Pnative -Dquarkus.native.container-build=true
 ```
 
